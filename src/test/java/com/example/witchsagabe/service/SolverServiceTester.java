@@ -23,30 +23,84 @@ public class SolverServiceTester {
     @InjectMocks
     SolverService solverService = new SolverService();
 
+    @InjectMocks
+    Person personMockA;
+
+    @InjectMocks
+    Person personMockB;
+
+    @InjectMocks
+    ResponseData responseDataMock;
+
     @Before
     public void setUp() {
 
     }
 
     @Test
-    void create() throws Exception {
+    public void testSuccess() throws Exception {
+        //Tes jika semua input benar
         Person personA = new Person();
         Person personB = new Person();
-
-        personA.setAgeOfDeath(10);
-        personA.setYearOfDeath(12);
-
-        personB.setAgeOfDeath(13);
-        personB.setYearOfDeath(17);
-
-        Assertions.assertEquals(4.5, solverService.findAverageKilledPerson(personA, personB).getResult(), "find result");
-
         ResponseData responseData = new ResponseData();
-//        responseData.setStatus(HttpStatus.OK);
-//        responseData.setMessage("failed");
-//        responseData.setResult((float)4.8);
 
         lenient().when(solverService.findAverageKilledPerson(personA, personB)).thenReturn(responseData);
 
+        personMockA.setAgeOfDeath(10);
+        personMockA.setYearOfDeath(12);
+
+        personMockB.setAgeOfDeath(13);
+        personMockB.setYearOfDeath(17);
+
+        responseDataMock.setStatus(HttpStatus.OK);
+        responseDataMock.setMessage("Success");
+        responseDataMock.setResult((float)4.5);
+
+        Assertions.assertEquals(responseDataMock, solverService.findAverageKilledPerson(personMockA, personMockB), "find result");
+    }
+
+    @Test
+    public void testFailedMinusNumber() {
+        //Tes jika input kurang dari 0
+        Person personA = new Person();
+        Person personB = new Person();
+        ResponseData responseData = new ResponseData();
+
+        lenient().when(solverService.findAverageKilledPerson(personA, personB)).thenReturn(responseData);
+
+        personMockA.setAgeOfDeath(-10);
+        personMockA.setYearOfDeath(12);
+
+        personMockB.setAgeOfDeath(13);
+        personMockB.setYearOfDeath(17);
+
+        responseDataMock.setStatus(HttpStatus.BAD_REQUEST);
+        responseDataMock.setMessage("Person A and Person B Year of Death and Age of Death must be positive number!");
+        responseDataMock.setResult((float)-1);
+
+        Assertions.assertEquals(responseDataMock, solverService.findAverageKilledPerson(personMockA, personMockB), "find result");
+
+    }
+
+    @Test
+    public void testFailedGreaterThan() {
+        //Tes jika input age of death lebih besar dari year of death
+        Person personA = new Person();
+        Person personB = new Person();
+        ResponseData responseData = new ResponseData();
+
+        when(solverService.findAverageKilledPerson(personA, personB)).thenReturn(responseData);
+
+        personMockA.setAgeOfDeath(12);
+        personMockA.setYearOfDeath(10);
+
+        personMockB.setAgeOfDeath(17);
+        personMockB.setYearOfDeath(13);
+
+        responseDataMock.setStatus(HttpStatus.BAD_REQUEST);
+        responseDataMock.setMessage("Person A or Person B Year of Death must be greater than Age of Death!");
+        responseDataMock.setResult((float)-1);
+
+        Assertions.assertEquals(responseDataMock, solverService.findAverageKilledPerson(personMockA, personMockB), "find result");
     }
 }
