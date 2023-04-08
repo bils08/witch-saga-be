@@ -4,10 +4,7 @@ import com.example.witchsagabe.model.ResponseData;
 import com.example.witchsagabe.service.SolverService;
 import com.example.witchsagabe.model.RequestData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("api/v1/witch")
 @RestController
@@ -20,7 +17,8 @@ public class api {
         this.solverService = solverService;
     }
 
-    @GetMapping(path = "/solve")
+    @CrossOrigin
+    @PostMapping(path = "/solve")
     public ResponseData solve(@RequestBody RequestData request) {
         return solverService.findAverageKilledPerson(request.getPersonA(), request.getPersonB());
     }
