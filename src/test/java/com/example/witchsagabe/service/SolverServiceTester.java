@@ -52,7 +52,7 @@ public class SolverServiceTester {
         personMockB.setAgeOfDeath(13);
         personMockB.setYearOfDeath(17);
 
-        responseDataMock.setStatus(HttpStatus.OK);
+        responseDataMock.setStatus("0");
         responseDataMock.setMessage("Success");
         responseDataMock.setResult((float)4.5);
 
@@ -74,7 +74,7 @@ public class SolverServiceTester {
         personMockB.setAgeOfDeath(13);
         personMockB.setYearOfDeath(17);
 
-        responseDataMock.setStatus(HttpStatus.BAD_REQUEST);
+        responseDataMock.setStatus("1");
         responseDataMock.setMessage("Person A and Person B Year of Death and Age of Death must be positive number!");
         responseDataMock.setResult((float)-1);
 
@@ -89,7 +89,7 @@ public class SolverServiceTester {
         Person personB = new Person();
         ResponseData responseData = new ResponseData();
 
-        when(solverService.findAverageKilledPerson(personA, personB)).thenReturn(responseData);
+        lenient().when(solverService.findAverageKilledPerson(personA, personB)).thenReturn(responseData);
 
         personMockA.setAgeOfDeath(12);
         personMockA.setYearOfDeath(10);
@@ -97,7 +97,7 @@ public class SolverServiceTester {
         personMockB.setAgeOfDeath(17);
         personMockB.setYearOfDeath(13);
 
-        responseDataMock.setStatus(HttpStatus.BAD_REQUEST);
+        responseDataMock.setStatus("1");
         responseDataMock.setMessage("Person A or Person B Year of Death must be greater than Age of Death!");
         responseDataMock.setResult((float)-1);
 
