@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 @Data
 public class ResponseData {
 
-    private HttpStatus status;
+    private String status;
     private String message;
     private float result = 0;
 }

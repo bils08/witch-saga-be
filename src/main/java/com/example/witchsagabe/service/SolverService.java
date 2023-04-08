@@ -14,21 +14,21 @@ public class SolverService {
         //cek jika input user bukan positive numbers
         if (personA.getAgeOfDeath() < 0 || personA.getYearOfDeath() < 0 || personB.getAgeOfDeath() < 0
                 || personB.getYearOfDeath() < 0) {
-            responseData.setStatus(HttpStatus.BAD_REQUEST);
+            responseData.setStatus("1");
             responseData.setMessage("Person A and Person B Year of Death and Age of Death must be positive number!");
             responseData.setResult(-1);
             return responseData;
          //cek jika input user age of death lebih besar dari year of death
         } else if (personA.getAgeOfDeath() > personA.getYearOfDeath() ||
                 personB.getAgeOfDeath() > personB.getYearOfDeath()) {
-            responseData.setStatus(HttpStatus.BAD_REQUEST);
+            responseData.setStatus("1");
             responseData.setMessage("Person A or Person B Year of Death must be greater than Age of Death!");
             responseData.setResult(-1);
             return responseData;
         } else {
             float result = calculateAverageKilledPerson(personA.getYearOfDeath(), personB.getYearOfDeath(),
                     personA.getAgeOfDeath(), personB.getAgeOfDeath());
-            responseData.setStatus(HttpStatus.OK);
+            responseData.setStatus("0");
             responseData.setMessage("Success");
             responseData.setResult(result);
             return responseData;
